@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\Product\ProductCollection;
 use App\Http\Resources\Product\ProductResource;
 use App\Model\Product;
 use Illuminate\Http\Request;
@@ -23,7 +24,7 @@ class ProductController extends Controller
         /**
          * response data of product
          */
-        return $products;
+        return ProductCollection::collection($products);
     }
 
     /**
