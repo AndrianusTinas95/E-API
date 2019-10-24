@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ReviewRequest;
+use App\Http\Resources\Review\ReviewResource;
+use App\Model\Product;
 use App\Model\Review;
 use Illuminate\Http\Request;
 
@@ -12,9 +15,22 @@ class ReviewController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Product $product)
     {
-        //
+        /**
+         * data review of product
+         */
+        $reviews = $product->reviews;
+
+        /**
+         * data response
+         */
+        $resp['data']= ReviewResource::collection($reviews);
+
+        /**
+         * response
+         */
+        return response()->json($resp,200);
     }
 
     /**
@@ -33,9 +49,22 @@ class ReviewController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ReviewRequest $request,Product $product)
     {
-        //
+        /**
+         * save the review to database
+         */
+        $request['product_id'] = $product->id;
+        $review = Review::create($request->all());
+
+        /**
+         * data single resource review
+         */
+        $resp['data']= new ReviewResource($review);
+        /**
+         * response
+         */
+        return response($resp,201);
     }
 
     /**
