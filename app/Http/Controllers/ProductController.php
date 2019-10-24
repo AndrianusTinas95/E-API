@@ -98,7 +98,21 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-        //
+        /**
+         * update the product
+         */
+        $product->update($request->all());
+
+        /**
+         * single data product resource
+         */
+        $resp['data'] = new ProductResource($product);
+
+        /**
+         * return response single data product
+         */
+        return response()->json($resp,201);
+
     }
 
     /**

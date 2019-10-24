@@ -23,12 +23,27 @@ class ProductRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            'name'      => 'required|max:200|unique:products',
-            'detail'    => 'required',
-            'price'     => 'required|max:10',
-            'stock'     => 'required|max:6',
-            'discount'  => 'required|max:2',
-        ];
+        switch ($this->method) {
+            case 'POST':
+                return [
+                    'name'      => 'required|max:200|unique:products',
+                    'detail'    => 'required',
+                    'price'     => 'required|max:10',
+                    'stock'     => 'required|max:6',
+                    'discount'  => 'required|max:2',
+                ];
+                break;
+            
+            default:
+                return [
+                    'name'      => 'nullable|max:200|unique:products,name,',
+                    'detail'    => 'nullable',
+                    'price'     => 'nullable|max:10',
+                    'stock'     => 'nullable|max:6',
+                    'discount'  => 'nullable|max:2',
+                ];
+                break;
+        }
+
     }
 }
