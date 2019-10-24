@@ -123,6 +123,14 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        //
+        /**
+         * delete the product
+         */
+        $product->delete();
+
+        /**
+         * response
+         */
+        return response()->json([],204);
     }
 }
