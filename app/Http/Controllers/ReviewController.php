@@ -96,9 +96,27 @@ class ReviewController extends Controller
      * @param  \App\Model\Review  $review
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Review $review)
+    public function update(Request $request, Product $product ,Review $review)
     {
-        //
+        /**
+         * validate
+         */
+        if($review->product_id !== $product->id) 
+        return response()->json(['Review Not belongs to Product'],404);
+
+        /**
+         * update data review
+         */
+        $review->update($request->all());
+
+        /**
+         * data single resource review
+         */
+        $resp['data']= new ReviewResource($review);
+        /**
+         * response
+         */
+        return response($resp,201);
     }
 
     /**
@@ -107,8 +125,22 @@ class ReviewController extends Controller
      * @param  \App\Model\Review  $review
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Review $review)
+    public function destroy(Product $product,Review $review)
     {
-        //
+        /**
+         * validate
+         */
+        if($review->product_id !== $product->id) 
+        return response()->json(['Review Not belongs to Product'],404);
+
+        /**
+         * delete review
+         */
+        $review->delete();
+
+        /**
+         * response
+         */
+        return response()->json([],204);
     }
 }
